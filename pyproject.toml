@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "tikitaska-possession"
+version = "1.0.0"
+description = "More than a Hack 2027 - ball possession per frame (H / A / D) for the tactical video"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = ">=3.11,<4.0"
+numpy = "2.5.4"
+pandas = "3.1.0"
+pyarrow = "26.0.1"
+
+[build-system]
+requires = ["poetry-core>=1.9.0"]
+build-backend = "poetry.core.masonry.api"
