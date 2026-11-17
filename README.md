@@ -16,7 +16,7 @@ python -m venv .venv
 # match data: unpack the challenge bundle into ./data, or point MTAH_DATA_DIR at it
 #   data/tactical/BAR-ATH_tactical_atd.xml, _atd.txt, _homography.csv, _smart_tagging.xml
 
-python -m src.make_submission                         # -> reports/submission/tikitaska.csv
+python -m src.make_submission --rebuild-features      # -> reports/submission/tikitaska.csv
 ```
 
 `make_submission` builds the per-frame feature table from the raw data (`reports/features.parquet`),
