@@ -71,18 +71,24 @@ data by Metrica Sports). Their possession labels are built from the public event
 rule that follows the challenge's definition (see
 [external/metrica_samples/README.md](external/metrica_samples/README.md)): no hand labels.
 
-To look like BAR-ATH's tracking, the samples' ball is shifted and given a slow drift, 0 / 15 / 30 %
-of the live ball is deleted in gaps of BAR-ATH's own gap lengths, and the restart tags are thinned to
-BAR-ATH's Smart Tagging rate. From BAR-ATH only those two unsupervised numbers (ball gap lengths
-and set-piece tags per minute) are read. The public 5-minute ground truth is not used for training,
-tuning or model selection.
+To look like BAR-ATH's tracking, the samples are degraded with four traits of BAR-ATH's tracking,
+all measured without labels: the ball runs about 6 frames ahead (`LEAD_FRAMES`), with a slow drift
+(`DRIFT_M`); 0 / 15 / 30 % of the live ball is deleted in gaps of BAR-ATH's own gap lengths; and the
+restart tags are thinned to BAR-ATH's Smart Tagging rate (set pieces per minute) and moved by up to
+2 s. No BAR-ATH label is used. The public 5-minute ground truth is not used for training, tuning or
+model selection.
 
 Rebuild the fitted numbers (downloads the sample games on first use; needs
 `reports/features.parquet`):
 
 ```bash
-python -m src.training.train_rule_learnt_ensemble    # rewrites the FITTED block, same result every time
+python -m src.training.train_rule_learnt_ensemble    # rewrites the FITTED block
 ```
+
+A refit is seeded, but it is not bit-identical across machines: numerical libraries differ in the
+last digits, and two refits on different machines differed by up to 0.018 in single weights. That
+moves 1 of 199,319 frames of the output. The submission uses the weights committed in
+`src/models/rule_learnt_ensemble.py`; from those, `make_submission` gives the same file byte for byte.
 
 ## Tests (synthetic data only)
 
